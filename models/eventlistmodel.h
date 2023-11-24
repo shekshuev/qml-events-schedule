@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QColor>
+#include <QDebug>
 
 class EventListModel : public QAbstractListModel
 {
@@ -16,11 +17,11 @@ public:
         BrightnessRole = Qt::UserRole+4
     };
 
-    EventListModel(QObject * parent = 0);
+    explicit EventListModel(QObject * parent = 0);
     ~EventListModel();
 
-    virtual int rowCount(const QModelIndex &parent) const;
-    virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual int rowCount(const QModelIndex &parent) const override;
+    virtual QVariant data(const QModelIndex &index, int role) const override;
     int count();
 
     Q_INVOKABLE void insert(int index, const QString& colorValue);

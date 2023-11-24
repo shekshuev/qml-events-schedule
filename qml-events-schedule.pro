@@ -8,11 +8,11 @@ SOURCES += \
         main.cpp \
         models/eventlistmodel.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc qtquickcontrols2.conf
 
 TRANSLATIONS += \
     qml-events-schedule_ru_RU.ts
-CONFIG += lrelease
+CONFIG += lrelease qml_debug
 CONFIG += embed_translations
 
 # Additional import path used to resolve QML modules in Qt Creator's code model

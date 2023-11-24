@@ -1,6 +1,6 @@
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.12
+import QtQuick.Window 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import ru.afso 1.0
 
@@ -53,12 +53,16 @@ Window {
 
         }
 
-        RowLayout {
+        ColumnLayout {
             TextField {
                 id: textEntry
+                Layout.fillWidth: true
             }
             Button {
                 onClicked: function() {
+                    view.decrementCurrentIndex()
+
+                    print(textEntry.text)
                     eventModel.append(textEntry.text);
                 }
             }

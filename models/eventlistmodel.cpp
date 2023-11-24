@@ -6,9 +6,9 @@ EventListModel::EventListModel(QObject * parent): QAbstractListModel(parent)
     m_roleNames[HueRole] = "hue";
     m_roleNames[SaturationRole] = "saturation";
     m_roleNames[BrightnessRole] = "brightness";
-    for(const QString& name : QColor::colorNames()) {
-        m_data.append(QColor(name));
-    }
+//    for(const QString& name : QColor::colorNames()) {
+//        m_data.append(QColor(name));
+//    }
 }
 
 
@@ -27,6 +27,7 @@ QVariant EventListModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     const QColor& color = m_data.at(row);
+    qDebug() << row << role << color;
     switch(role) {
         case NameRole:
             return color.name();
@@ -48,22 +49,22 @@ QHash<int, QByteArray> EventListModel::roleNames() const
 
 void EventListModel::insert(int index, const QString &colorValue)
 {
-    if(index < 0 || index > m_data.count()) {
+    if (index < 0 || index > m_data.count()) {
         return;
     }
     QColor color(colorValue);
-    if(!color.isValid()) {
+    if (!color.isValid()) {
         return;
     }
     emit beginInsertRows(QModelIndex(), index, index);
     m_data.insert(index, color);
     emit endInsertRows();
-//    emit countChanged(m_data.count());
+    emit countChanged(m_data.count());
 }
 
 void EventListModel::append(const QString &colorValue)
 {
-//    insert(count(), colorValue);
+    insert(count(), colorValue);
 }
 
 void EventListModel::remove(int index)
