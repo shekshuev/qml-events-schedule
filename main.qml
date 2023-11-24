@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.12
 import ru.afso 1.0
 
 Window {
@@ -9,6 +10,7 @@ Window {
     height: 480
     visible: true
     title: qsTr("Hello")
+    color: Material.background
 
     EventListModel {
         id: eventModel
@@ -23,45 +25,67 @@ Window {
         anchors.fill: parent
         anchors.margins: 8
 
+
         ScrollView {
-            Layout.fillHeight: true
+
             Layout.fillWidth: true
+            anchors {
+                top: parent.top
+                bottom: bottomPane.top
+            }
+
             ListView {
                 id: view
-
                 anchors.margins: 10
                 anchors.fill: parent
                 spacing: 10
                 model: eventModel
                 focus: true
 
-                delegate: Rectangle {
+                delegate: Pane {
                     width: view.width
                     height: 100
+                    Material.elevation: 3
 
-                    Text {
-                        anchors.centerIn: parent
-                        renderType: Text.NativeRendering
-                        text: model.title
+                    ColumnLayout {
+                        Text {
+                            Layout.fillWidth: true
+                            renderType: Text.NativeRendering
+                            text: model.title
+                        }
                     }
+
+
                 }
             }
 
         }
 
-        ColumnLayout {
-
-            TextField {
-                id: textEntry
-                Layout.fillWidth: true
+        Pane {
+            id: bottomPane
+            Layout.fillWidth: true
+            height: 100
+            anchors {
+                bottom: parent.bottom
             }
 
-            Button {
-                onClicked: function() {
-                    view.decrementCurrentIndex()
+            ColumnLayout {
 
-                    print(textEntry.text)
-                    eventModel.append(textEntry.text);
+
+
+                TextField {
+                    id: textEntry
+                    Layout.fillWidth: true
+                    color: Material.primary
+                }
+
+                Button {
+                    onClicked: function() {
+                        view.decrementCurrentIndex()
+
+                        print(textEntry.text)
+                        eventModel.append(textEntry.text);
+                    }
                 }
             }
         }
