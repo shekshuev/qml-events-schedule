@@ -6,9 +6,9 @@ EventListModel::EventListModel(QObject * parent): QAbstractListModel(parent)
     m_roleNames[HueRole] = "hue";
     m_roleNames[SaturationRole] = "saturation";
     m_roleNames[BrightnessRole] = "brightness";
-//    for(const QString& name : QColor::colorNames()) {
-//        m_data.append(QColor(name));
-//    }
+    for(const QString& name : QColor::colorNames()) {
+        m_data.append(QColor(name));
+    }
 }
 
 

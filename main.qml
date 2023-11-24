@@ -32,7 +32,7 @@ Window {
                 anchors.margins: 10
                 anchors.fill: parent
                 spacing: 10
-                model: EventListModel {}
+                model: eventModel
                 focus: true
 
                 delegate: Rectangle {
