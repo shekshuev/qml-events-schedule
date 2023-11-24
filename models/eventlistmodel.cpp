@@ -1,14 +1,13 @@
 #include "eventlistmodel.h"
 
 EventListModel::EventListModel(QObject * parent): QAbstractListModel(parent)
-{
-    m_roleNames[NameRole] = "name";
-    m_roleNames[HueRole] = "hue";
-    m_roleNames[SaturationRole] = "saturation";
-    m_roleNames[BrightnessRole] = "brightness";
-    for(const QString& name : QColor::colorNames()) {
-        m_data.append(QColor(name));
-    }
+{ 
+    m_roleNames[IdRole] = "id";
+    m_roleNames[TitleRole] = "title";
+    m_roleNames[DescriptionRole] = "description";
+    m_roleNames[BeginDateRole] = "begin_date";
+    m_roleNames[EndDateRole] = "end_date";
+    m_roleNames[EventTypeRole] = "event_type";
 }
 
 
@@ -26,19 +25,21 @@ QVariant EventListModel::data(const QModelIndex &index, int role) const
     if(row < 0 || row >= m_data.count()) {
         return QVariant();
     }
-    const QColor& color = m_data.at(row);
-    qDebug() << row << role << color;
+    const EventDAO& dao = m_data.at(row);
     switch(role) {
-        case NameRole:
-            return color.name();
-        case HueRole:
-            return color.hueF();
-        case SaturationRole:
-            return color.saturationF();
-        case BrightnessRole:
-            return color.lightnessF();
+        case IdRole:
+            return dao.id();
+        case TitleRole:
+            return dao.title();
+        case DescriptionRole:
+            return dao.description();
+        case BeginDateRole:
+            return dao.begin_date();
+        case EndDateRole:
+            return dao.end_date();
+        case EventTypeRole:
+            return dao.event_type();
     }
-
     return QVariant();
 }
 
@@ -47,17 +48,14 @@ QHash<int, QByteArray> EventListModel::roleNames() const
     return m_roleNames;
 }
 
-void EventListModel::insert(int index, const QString &colorValue)
+void EventListModel::insert(int index, const QString &title)
 {
     if (index < 0 || index > m_data.count()) {
         return;
     }
-    QColor color(colorValue);
-    if (!color.isValid()) {
-        return;
-    }
+    EventDAO dao(title);
     emit beginInsertRows(QModelIndex(), index, index);
-    m_data.insert(index, color);
+    m_data.insert(index, dao);
     emit endInsertRows();
     emit countChanged(m_data.count());
 }
@@ -86,10 +84,10 @@ void EventListModel::clear()
     emit countChanged(m_data.count());
 }
 
-QColor EventListModel::get(int index)
+EventDAO EventListModel::get(int index)
 {
     if(index < 0 || index >= m_data.count()) {
-        return QColor();
+        return EventDAO();
     }
     return m_data.at(index);
 }

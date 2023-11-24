@@ -6,6 +6,7 @@ QT += quick
 
 SOURCES += \
         main.cpp \
+        models/eventdao.cpp \
         models/eventlistmodel.cpp
 
 RESOURCES += qml.qrc qtquickcontrols2.conf
@@ -30,4 +31,5 @@ DISTFILES += \
     init.sql
 
 HEADERS += \
+    models/eventdao.h \
     models/eventlistmodel.h

@@ -38,15 +38,11 @@ Window {
                 delegate: Rectangle {
                     width: view.width
                     height: 100
-                    color: model.name
 
                     Text {
                         anchors.centerIn: parent
                         renderType: Text.NativeRendering
-                        text: 'hsv(' +
-                              Number(model.hue).toFixed(2) + ',' +
-                              Number(model.saturation).toFixed() + ',' +
-                              Number(model.brightness).toFixed() + ')'
+                        text: model.title
                     }
                 }
             }
@@ -54,10 +50,12 @@ Window {
         }
 
         ColumnLayout {
+
             TextField {
                 id: textEntry
                 Layout.fillWidth: true
             }
+
             Button {
                 onClicked: function() {
                     view.decrementCurrentIndex()

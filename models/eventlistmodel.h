@@ -2,8 +2,8 @@
 #define EVENTLISTMODEL_H
 
 #include <QAbstractListModel>
-#include <QColor>
 #include <QDebug>
+#include "eventdao.h"
 
 class EventListModel : public QAbstractListModel
 {
@@ -11,13 +11,15 @@ class EventListModel : public QAbstractListModel
 public:
 
     enum RoleNames {
-        NameRole = Qt::UserRole,
-        HueRole = Qt::UserRole+2,
-        SaturationRole = Qt::UserRole+3,
-        BrightnessRole = Qt::UserRole+4
+        IdRole = Qt::UserRole,
+        TitleRole,
+        DescriptionRole,
+        BeginDateRole,
+        EndDateRole,
+        EventTypeRole
     };
 
-    explicit EventListModel(QObject * parent = 0);
+    EventListModel(QObject * parent = 0);
     ~EventListModel();
 
     virtual int rowCount(const QModelIndex &parent) const override;
@@ -30,7 +32,7 @@ public:
     Q_INVOKABLE void clear();
 
     Q_PROPERTY(int count READ count NOTIFY countChanged)
-    Q_INVOKABLE QColor get(int index);
+    Q_INVOKABLE EventDAO get(int index);
 
 signals:
     void countChanged(int);
@@ -39,7 +41,7 @@ protected:
     virtual QHash<int, QByteArray> roleNames() const override;
 
 private:
-    QList<QColor> m_data;
+    QList<EventDAO> m_data;
     QHash<int, QByteArray> m_roleNames;
 };
 
